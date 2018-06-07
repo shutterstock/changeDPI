@@ -1,6 +1,6 @@
 {
   "name": "changedpi",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Quickly change the dpi for an image without re enconding",
   "main": "dist/index.js",
   "scripts": {
