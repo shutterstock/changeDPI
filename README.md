@@ -1,8 +1,6 @@
 # changeDPI
 
-changeDPI provides 2 utility functions that can change the dpi of canvas generated image, both on the dataUrl or Blob format. The functions works on separating the header from the image data, convert and manipulate the header only, and then stick the header back to the file.
-In this way giant images can be converted fast without having to convert all the content of the file.
-Image data does not get modified in the process, the image stays the same.
+changeDPI provides 2 utility functions that can change the dpi of canvas-generated image, of either dataUrl or Blob formats. The functions work on separating the header from the image data, converting and manipulating just the header, then sticking the header back on the file. In this way, very large images can be converted fast without having to convert the entire contents of an image file. This process is non-destructive&mdash;image data does not get modified in the process.
 
 ## Install
 
@@ -45,12 +43,6 @@ This module uses ES6. To see a compiled ES5 version, run `npm run build` and loo
 npm install .
 npm run test
 ```
-
-## Maintainer
-
-This project is maintained by @abogazzi.
-
-If you're interested in helping out and you are already a committer on the project, open an issue and ask to be added as a contributor.
 
 ## Contribute
 
