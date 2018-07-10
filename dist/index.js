@@ -74,7 +74,7 @@ function changeDpiDataUrl(base64Image, dpi) {
     // 28 bytes in dataUrl are 21bytes, length of phys chunk with everything inside.
     if (b64Index) {
       headerLength = Math.ceil((b64Index + 28) / 3) * 4;
-      removepHYs = true;
+      overwritepHYs = true;
     } else {
       headerLength = 33 / 3 * 4;
     }
@@ -115,11 +115,12 @@ function detectPhysChunkFromDataUrl(data) {
 }
 
 function searchStartOfPhys(data) {
-  var length = data.length;
-
-  for (var i = 0; i < length; i++) {
-    if (data[i] === 9 && data[i + 1] === _P && data[i + 2] === _H && data[i + 3] === _Y && data[i + 4] === _S) {
-      return i + 1;
+  var length = data.length - 1;
+  // we check from the end since we cut the string in proximity of the header
+  // the header is within 21 bytes from the end.
+  for (var i = length; i >= 4; i--) {
+    if (data[i - 4] === 9 && data[i - 3] === _P && data[i - 2] === _H && data[i - 1] === _Y && data[i] === _S) {
+      return i - 3;
     }
   }
 }
