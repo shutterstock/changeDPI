@@ -1,6 +1,6 @@
 {
   "name": "changedpi",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Quickly change the dpi for an image without re enconding",
   "main": "dist/index.js",
   "scripts": {
@@ -10,9 +10,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.shuttercorp.net:editor/changeDPI.git"
+    "url": "https://github.com/shutterstock/changeDPI"
   },
-  "bugs": "https://github.shuttercorp.new/editor/changeDPI/issues",
+  "bugs": "https://github.com/shutterstock/changeDPI/issues",
   "keywords": [
     "dpi",
     "ediot",
