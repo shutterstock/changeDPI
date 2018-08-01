@@ -72,7 +72,7 @@ function changeDpiDataUrl(base64Image, dpi) {
     type = PNG;
     var b64Index = detectPhysChunkFromDataUrl(body);
     // 28 bytes in dataUrl are 21bytes, length of phys chunk with everything inside.
-    if (b64Index) {
+    if (b64Index >= 0) {
       headerLength = Math.ceil((b64Index + 28) / 3) * 4;
       overwritepHYs = true;
     } else {
