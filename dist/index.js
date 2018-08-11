@@ -35,7 +35,13 @@ var pngDataTable = void 0;
 var PNG = 'image/png';
 var JPEG = 'image/jpeg';
 
-// those are 3 possible signature of the physBlock in base64
+// those are 3 possible signature of the physBlock in base64.
+// the pHYs signature block is preceed by the 4 bytes of lenght. The length of
+// the block is always 9 bytes. So a phys block has always this signature:
+// 0 0 0 9 p H Y s.
+// However the data64 encoding aligns we will always find one of those 3 strings.
+// this allow us to find this particular occurence of the pHYs block without
+// converting from b64 back to string
 var b64PhysSignature1 = 'AAlwSFlz';
 var b64PhysSignature2 = 'AAAJcEhZ';
 var b64PhysSignature3 = 'AAAACXBI';
@@ -72,7 +78,7 @@ function changeDpiDataUrl(base64Image, dpi) {
     type = PNG;
     var b64Index = detectPhysChunkFromDataUrl(body);
     // 28 bytes in dataUrl are 21bytes, length of phys chunk with everything inside.
-    if (b64Index) {
+    if (b64Index >= 0) {
       headerLength = Math.ceil((b64Index + 28) / 3) * 4;
       overwritepHYs = true;
     } else {
@@ -105,13 +111,8 @@ function detectPhysChunkFromDataUrl(data) {
   if (b64index === -1) {
     b64index = data.indexOf(b64PhysSignature3);
   }
-  if (b64index === -1) {
-    //chunk not found, add a new one.
-    return -1;
-  } else {
-    // chunk found
-    return b64index;
-  }
+  // if b64index === -1 chunk is not found
+  return b64index;
 }
 
 function searchStartOfPhys(data) {
