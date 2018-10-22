@@ -1,6 +1,6 @@
 # changeDPI
 
-changeDPI provides 2 utility functions that can change the dpi of canvas-generated image, of either dataUrl or Blob formats. The functions work on separating the header from the image data, converting and manipulating just the header, then sticking the header back on the file. In this way, very large images can be converted fast without having to convert the entire contents of an image file. This process is non-destructive&mdash;image data does not get modified in the process.
+changeDPI provides 2 utility functions that can change the dpi of canvas-generated image, of either dataUrl or blob formats. The functions separate the header from the image data, convert and manipulate just the header, then sticks the header back on the file. In this way, very large images can be converted quickly without having to convert the entire contents of an image file. This process is non-destructive—image data does not get modified in the process.
 
 ## Install
 
