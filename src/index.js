@@ -41,6 +41,40 @@ const _H = 'H'.charCodeAt(0);
 const _Y = 'Y'.charCodeAt(0);
 const _S = 's'.charCodeAt(0);
 
+function isBufferPNG(buffer) {
+  if (buffer.length < 8) return;
+  return buffer[0] === 137 && buffer[1] === 80 && buffer[2] === 78 && buffer[3] === 71 && buffer[4] === 13 && buffer[5] === 10 && buffer[6] === 26 && buffer[7] === 10;
+}
+
+function isBufferJPEG(buffer) {
+  if (buffer.length < 3) return;
+  return buffer[0] === 255 && buffer[1] === 216 && buffer[2] === 255;
+}
+
+function getType(buffer) {
+  if (isBufferJPEG(buffer)) {
+    return JPEG;
+  }
+  if (isBufferPNG(buffer)) {
+    return PNG;
+  }
+}
+
+function mergedTypedArrays(a, b) {
+  var c = new a.constructor(a.length + b.length);
+  c.set(a);
+  c.set(b, a.length);
+  return c;
+}
+
+export function changeDpiBuffer(buffer, dpi) {
+  const headerChunk = new Uint8Array(buffer.slice(0, 33));
+  const rest = buffer.slice(33);
+  const type = getType(buffer);
+  const changedHeader = changeDpiOnArray(headerChunk, dpi, type);
+  return mergedTypedArrays(changedHeader, rest);
+}
+
 export function changeDpiBlob(blob, dpi) {
   // 33 bytes are ok for pngs and jpegs
   // to contain the information.

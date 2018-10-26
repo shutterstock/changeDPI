@@ -1,6 +1,6 @@
 import chai, { expect } from 'chai';
 import fs from 'fs';
-import { changeDpiDataUrl, changeDpiBlob } from '../src/index';
+import { changeDpiDataUrl, changeDpiBlob, changeDpiBuffer } from '../src/index';
 import btoa from 'btoa';
 import atob from 'atob';
 
@@ -58,6 +58,13 @@ describe('It can convert dpi', function() {
       expect(Buffer.compare(blob,b)).to.not.equal(0);
     });
   });
+  it("JPEG conversion buffer", function() {
+    const jpeg123 = fs.readFileSync(__dirname + '/jpeg123.jpg');
+    const jpeg456 = fs.readFileSync(__dirname + '/jpeg456.jpg');
+    const converted = changeDpiBuffer(jpeg123, 456, 'image/jpeg');
+    expect(Buffer.compare(converted,jpeg456)).to.equal(0);
+    expect(Buffer.compare(converted,jpeg123)).to.not.equal(0);
+  })
   // it('PNG conversion blob', function() {
   //   const b = fs.readFileSync(__dirname + '/test415.png');
   //   const a = fs.readFileSync(__dirname + '/test830.png');
