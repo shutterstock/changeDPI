@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.changeDpiBuffer = changeDpiBuffer;
 exports.changeDpiBlob = changeDpiBlob;
 exports.changeDpiDataUrl = changeDpiDataUrl;
 
@@ -50,6 +51,40 @@ var _P = 'p'.charCodeAt(0);
 var _H = 'H'.charCodeAt(0);
 var _Y = 'Y'.charCodeAt(0);
 var _S = 's'.charCodeAt(0);
+
+function isBufferPNG(buffer) {
+  if (buffer.length < 8) return;
+  return buffer[0] === 137 && buffer[1] === 80 && buffer[2] === 78 && buffer[3] === 71 && buffer[4] === 13 && buffer[5] === 10 && buffer[6] === 26 && buffer[7] === 10;
+}
+
+function isBufferJPEG(buffer) {
+  if (buffer.length < 3) return;
+  return buffer[0] === 255 && buffer[1] === 216 && buffer[2] === 255;
+}
+
+function getType(buffer) {
+  if (isBufferJPEG(buffer)) {
+    return JPEG;
+  }
+  if (isBufferPNG(buffer)) {
+    return PNG;
+  }
+}
+
+function mergedTypedArrays(a, b) {
+  var c = new a.constructor(a.length + b.length);
+  c.set(a);
+  c.set(b, a.length);
+  return c;
+}
+
+function changeDpiBuffer(buffer, dpi) {
+  var headerChunk = new Uint8Array(buffer.slice(0, 33));
+  var rest = buffer.slice(33);
+  var type = getType(buffer);
+  var changedHeader = changeDpiOnArray(headerChunk, dpi, type);
+  return mergedTypedArrays(changedHeader, rest);
+}
 
 function changeDpiBlob(blob, dpi) {
   // 33 bytes are ok for pngs and jpegs
