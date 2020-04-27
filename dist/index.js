@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.changeDpiBuffer = changeDpiBuffer;
 exports.changeDpiBlob = changeDpiBlob;
 exports.changeDpiDataUrl = changeDpiDataUrl;
 
@@ -50,6 +51,13 @@ var _P = 'p'.charCodeAt(0);
 var _H = 'H'.charCodeAt(0);
 var _Y = 'Y'.charCodeAt(0);
 var _S = 's'.charCodeAt(0);
+
+function changeDpiBuffer(format, blob, dpi) {
+  var headerChunk = blob.slice(0, 33);
+  var tail = blob.slice(33);
+  var changedArray = changeDpiOnArray(headerChunk, dpi, format);
+  return Buffer.concat([changedArray, tail]);
+}
 
 function changeDpiBlob(blob, dpi) {
   // 33 bytes are ok for pngs and jpegs
