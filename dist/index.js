@@ -52,9 +52,9 @@ var _H = 'H'.charCodeAt(0);
 var _Y = 'Y'.charCodeAt(0);
 var _S = 's'.charCodeAt(0);
 
-function changeDpiBuffer(format, blob, dpi) {
-  var headerChunk = blob.slice(0, 33);
-  var tail = blob.slice(33);
+function changeDpiBuffer(buffer, dpi, format) {
+  var headerChunk = buffer.slice(0, 33);
+  var tail = buffer.slice(33);
   var changedArray = changeDpiOnArray(headerChunk, dpi, format);
   return Buffer.concat([changedArray, tail]);
 }

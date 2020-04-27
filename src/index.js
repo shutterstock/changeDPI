@@ -41,9 +41,9 @@ const _H = 'H'.charCodeAt(0);
 const _Y = 'Y'.charCodeAt(0);
 const _S = 's'.charCodeAt(0);
 
-export function changeDpiBuffer(format, blob, dpi) {
-  const headerChunk = blob.slice(0, 33);
-  const tail = blob.slice(33);
+export function changeDpiBuffer(buffer, dpi, format) {
+  const headerChunk = buffer.slice(0, 33);
+  const tail = buffer.slice(33);
   const changedArray = changeDpiOnArray(headerChunk, dpi, format);
   return Buffer.concat([changedArray, tail]);
 }
